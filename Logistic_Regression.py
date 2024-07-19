@@ -114,11 +114,118 @@ def initialize_with_zeros(dim):
 
 dim = 2
 w, b = initialize_with_zeros(dim)
-
 assert type(b) == float
 print ("w = " + str(w))
 print ("b = " + str(b))
 
 initialize_with_zeros_test_1(initialize_with_zeros)
 initialize_with_zeros_test_2(initialize_with_zeros)
+print("========================================")
+
+"""
+Exercise 5: Forward and Backward Propagation
+Now, we implement a function propagate() that computes the cost function and its gradient
+
+- Forward propagation:
+    - we get X
+    - we compute A = 𝞼(wT X + b)
+    - we calculate the cost function: J = - (1/m) 𝛴(y log(a) + (1 - y) log(1 - a))
+    
+- Arguments:
+    - w: weights, a numpy array of size (num_px * num_px * 3, 1)
+    - b: bias, a scalar
+    - X: data of size (num_px * num_px * 3, number of examples)
+    - Y: true "label" vector (containing 0 if non-cat, 1 if cat) of size (1, number of examples)
+
+- Returns: 
+    - grads: dictionary containing gradient of the weight and bias vectors
+        (dw -- gradient of the loss with respect to w, thus same shape as w)
+        (db -- gradient of the loss with respect to b, thus same shape as b)
+    - cost: negative logarithm-likelihood of the cost for logistic regression
+
+"""
+print("Exercise 5: Propagate")
+print("==========")
+def propagate(w, b, X, Y):
+    m = X.shape[1]
+    A = 1 / (1 + np.exp(-(np.dot(w.T, X) + b)))
+    cost = -(1/m) * np.sum(Y * np.log(A) + (1 - Y) * np.log(1 - A))
+    dw = 1 / m * np.dot(X, (A - Y).T)
+    db = 1 / m * np.sum(A - Y)
+    cost = np.squeeze(np.array(cost))
+    grads = {"dw": dw, "db": db}
+    return grads, cost
+
+w =  np.array([[1.], [2]])
+b = 1.5
+X = np.array([[1., -2., -1.], [3., 0.5, -3.2]])
+Y = np.array([[1, 1, 0]])
+grads, cost = propagate(w, b, X, Y)
+
+assert type(grads["dw"]) == np.ndarray
+assert grads["dw"].shape == (2, 1)
+assert type(grads["db"]) == np.float64
+
+print ("dw = " + str(grads["dw"]))
+print ("db = " + str(grads["db"]))
+print ("cost = " + str(cost))
+propagate_test(propagate)
+print("========================================")
+
+"""
+Exercise 6: Optimization
+Now, after we initialized the parameters ad computed the cost function and its gradient, we want to update the parameters using gradient descent. 
+
+The goal of this function is to learn w and b minimizing the cost function J using a gradient descent algorithm
+For a parameter 𝞱, the update rule is: 𝞱 = 𝞱 - 𝞪d𝞱, where 𝞪 is the learning rate 
+
+- Arguments:
+    - w: weights, a numpy array of size (num_px * num_px * 3, 1)
+    - b: bias, a scalar
+    - X: data of size (num_px * num_px * 3, number of examples)
+    - Y: true "label" vector (containing 0 if non-cat, 1 if cat) of size (1, number of examples)
+    - num_iterations: number of iterations of the optimization loop
+    - learning_rate: learning rate of the gradient descent update rule
+    - print_cost: True to print the loss every 100 steps
+
+- Returns: 
+    - params: dictionary containing the weights w and bias b
+    - grads: dictionary containing the gradients of the weights and bias with respect to the cost function
+    - costs: list of all the costs computed during the optimization, this will be used to plot the learning curve.
+"""
+print("Exercise 6: Optimize")
+print("==========")
+def optimize(w, b, X, Y, num_iterations = 100, learning_rate = 0.009, print_cost = False):
+    w = copy.deepcopy(w)
+    b = copy.deepcopy(b)
+    costs = []
+
+    for i in range(num_iterations):
+        grads, cost = propagate(w, b, X, Y)
+        dw = grads["dw"]
+        db = grads["db"]
+
+        # update rule
+        w = w - learning_rate * dw
+        b = b - learning_rate * db
+
+        # record the cost
+        if i % 100 == 0:
+            costs.append(cost)
+
+            # print the cost every 100 training iterations
+            if print_cost:
+                print("Cost after iteration %i: %f" %(i, cost))
+    params = {"w": w, "b": b}
+    grads = {"dw": dw, "db": db}
+    return params, grads, costs
+
+params, grads, costs = optimize(w, b, X, Y, num_iterations=100, learning_rate=0.009, print_cost=False)
+
+print ("w = " + str(params["w"]))
+print ("b = " + str(params["b"]))
+print ("dw = " + str(grads["dw"]))
+print ("db = " + str(grads["db"]))
+print("Costs = " + str(costs))
+optimize_test(optimize)
 print("========================================")
