@@ -229,3 +229,41 @@ print ("db = " + str(grads["db"]))
 print("Costs = " + str(costs))
 optimize_test(optimize)
 print("========================================")
+
+"""
+Exercise 7: Prediction
+Now, after we get w and b we are able to predict the labels for a dataset X. 
+    - we calculate Yhat = A = 𝞼(wT X + b)
+    - we then convert the entries of a into 0 (if activation <= 0.5) or 1 (if activation > 0.5), stores the prediction in a 
+    vector Y_prediction.
+
+- Arguments:
+    - w: weights, a numpy array of size (num_px * num_px * 3, 1)
+    - b: bias, a scalar
+    - X: data of size (num_px * num_px * 3, number of examples)
+
+- Returns: 
+    - Y_prediction: a numpy array (vector) containing the predicted (0/1) for the examples in X
+"""
+print("Exercise 7: Predict")
+print("==========")
+def predict(w, b, X):
+    m = X.shape[1]
+    Y_prediction = np.zeros((1, m))
+    w = w.reshape(X.shape[0], 1)
+    A = 1 / (1 + np.exp(-(np.dot(w.T, X) + b)))
+
+    for i in range(A.shape[1]):
+        if A[0, i] > 0.5:
+            Y_prediction[0, i] = 1
+        else:
+            Y_prediction[0, i] = 0
+
+    return Y_prediction
+
+w = np.array([[0.1124579], [0.23106775]])
+b = -0.3
+X = np.array([[1., -1.1, -3.2],[1.2, 2., 0.1]])
+print ("predictions = " + str(predict(w, b, X)))
+predict_test(predict)
+print("========================================")
