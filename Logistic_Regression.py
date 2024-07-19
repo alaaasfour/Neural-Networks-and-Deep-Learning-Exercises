@@ -32,6 +32,8 @@ We will find the values for:
 m_train = len(train_set_x_orig)
 m_test = len(test_set_x_orig)
 num_px = train_set_x_orig.shape[2]
+print("Exercise 1")
+print("==========")
 print ("Number of training examples: m_train = " + str(m_train))
 print ("Number of testing examples: m_test = " + str(m_test))
 print ("Height/Width of each image: num_px = " + str(num_px))
@@ -40,3 +42,20 @@ print ("train_set_x shape: " + str(train_set_x_orig.shape))
 print ("train_set_y shape: " + str(train_set_y.shape))
 print ("test_set_x shape: " + str(test_set_x_orig.shape))
 print ("test_set_y shape: " + str(test_set_y.shape))
+print("========================================")
+
+"""
+Exercise 2:
+Reshape the training and test data sets so that images of size (num_px, num_px, 3) are flattened into single vectors of shape
+(num_px * num_px * 3, 1)
+"""
+
+train_set_x_flatten = train_set_x_orig.reshape(train_set_x_orig.shape[0], -1).T
+test_set_x_flatten = test_set_x_orig.reshape(test_set_x_orig.shape[0], -1).T
+print("Exercise 2")
+print("==========")
+print ("train_set_x_flatten shape: " + str(train_set_x_flatten.shape))
+print ("train_set_y shape: " + str(train_set_y.shape))
+print ("test_set_x_flatten shape: " + str(test_set_x_flatten.shape))
+print ("test_set_y shape: " + str(test_set_y.shape))
+print("========================================")
