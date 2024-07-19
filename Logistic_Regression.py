@@ -1,6 +1,18 @@
 # Logistic Regression with a Neural Network Mindset
+"""
+In this lab, we will build a logistic regression classifier to recognize cats.
+1. We will build the general architecture of a learning algorithm, including:
+    - Initializing parameters
+    - Calculating the cost function and its gradient
+    - Using an optimization algorithm (gradient descent)
+2. Gather all three functions into a main model function, in the right order.
+"""
 
 # Packages
+"""
+h5py is a common package to interact with a dataset that is stored on an H5 file.
+PIL and scipy are used here to test the model with different pictures from the local machine.
+"""
 import numpy as np
 import copy
 import matplotlib.pyplot as plt
@@ -11,16 +23,24 @@ from scipy import ndimage
 from lr_utils import load_dataset
 from public_tests import *
 
-
+"""
+The dataset "data.h5" contains:
+- a training set of m_train images labeled as cat (y=1) or non-cat (y=0)
+- a test set of m_test images labeled as cat or non-cat
+- each image is of shape (num_px, num_px, 3) where 3 is for the 3 channels (RGB). Thus, each image is square (height = num_px) and (width = num_px).
+So, we will build an image-recognition algorithm that can classify pictures as cat or non-cat
+"""
 # Loading the data (cat/non-Cat)
 train_set_x_orig, train_set_y, test_set_x_orig, test_set_y, classes = load_dataset()
-
 # Example of a picture
 index = 24
 plt.imshow(train_set_x_orig[index])
 plt.show()
 print ("y = " + str(train_set_y[:, index]) + ", it's a '" + classes[np.squeeze(train_set_y[:, index])].decode("utf-8") +  "' picture.")
-
+"""
+We added "_orig" at the end of image datasets (train and test) because we are going to preprocess them. 
+After preprocessing, we will end up with train_set_x and test_set_x (the labels train_set_y and test_set_y don't need any preprocessing).
+"""
 
 """
 Exercise 1:
@@ -49,7 +69,6 @@ Exercise 2:
 Reshape the training and test data sets so that images of size (num_px, num_px, 3) are flattened into single vectors of shape
 (num_px * num_px * 3, 1)
 """
-
 train_set_x_flatten = train_set_x_orig.reshape(train_set_x_orig.shape[0], -1).T
 test_set_x_flatten = test_set_x_orig.reshape(test_set_x_orig.shape[0], -1).T
 print("Exercise 2")
@@ -67,7 +86,6 @@ value is actually a vector of three numbers ranging from 0 to 255.
 train_set_x = train_set_x_flatten / 255
 test_set_x = test_set_x_flatten / 255
 
-
 """
 Building the parts of the algorithm:
 The main steps for building a Neural Network are:
@@ -77,9 +95,9 @@ The main steps for building a Neural Network are:
         - Calculating the current loss (forward propagation)
         - Calculating the gradient (backward propagation)
         - Update parameters of the model (gradient descent)
-        
 We will build each step separately and combine them into a single function called model()
 """
+
 """
 Exercise 3: Sigmoid Function
 The sigmoid function has the formula: sigmoid(z) = 1 / (1 + e^{-z}) 
@@ -125,7 +143,6 @@ print("========================================")
 """
 Exercise 5: Forward and Backward Propagation
 Now, we implement a function propagate() that computes the cost function and its gradient
-
 - Forward propagation:
     - we get X
     - we compute A = 𝞼(wT X + b)
@@ -142,8 +159,8 @@ Now, we implement a function propagate() that computes the cost function and its
         (dw -- gradient of the loss with respect to w, thus same shape as w)
         (db -- gradient of the loss with respect to b, thus same shape as b)
     - cost: negative logarithm-likelihood of the cost for logistic regression
-
 """
+
 print("Exercise 5: Propagate")
 print("==========")
 def propagate(w, b, X, Y):
@@ -193,6 +210,7 @@ For a parameter 𝞱, the update rule is: 𝞱 = 𝞱 - 𝞪d𝞱, where 𝞪 is
     - grads: dictionary containing the gradients of the weights and bias with respect to the cost function
     - costs: list of all the costs computed during the optimization, this will be used to plot the learning curve.
 """
+
 print("Exercise 6: Optimize")
 print("==========")
 def optimize(w, b, X, Y, num_iterations = 100, learning_rate = 0.009, print_cost = False):
@@ -245,6 +263,7 @@ Now, after we get w and b we are able to predict the labels for a dataset X.
 - Returns: 
     - Y_prediction: a numpy array (vector) containing the predicted (0/1) for the examples in X
 """
+
 print("Exercise 7: Predict")
 print("==========")
 def predict(w, b, X):
@@ -284,6 +303,7 @@ Now, after we have build all the important steps, it's time to merge all of them
 - Returns: 
     - d: dictionary containing information about the model.
 """
+
 print("Exercise 8: Model")
 print("==========")
 def model(X_train, Y_train, X_test, Y_test, num_iterations = 2000, learning_rate = 0.5, print_cost = False):
@@ -313,7 +333,6 @@ def model(X_train, Y_train, X_test, Y_test, num_iterations = 2000, learning_rate
          "b": b,
          "learning_rate": learning_rate,
          "num_iterations": num_iterations}
-
     return d
 
 from public_tests import *
@@ -356,15 +375,13 @@ for lr in learning_rates:
 plt.ylabel('cost')
 plt.xlabel('iterations (hundreds)')
 
-legend = plt.legend(loc='upper center', shadow=True)
+legend = plt.legend(loc='upper center', shadow = True)
 frame = legend.get_frame()
 frame.set_facecolor('0.90')
 plt.show()
 
 # Trying the modal with a different picture
-my_image = "cat_in_iran.jpg"
-
-# We preprocess the image to fit your algorithm.
+# We preprocess the image to fit the algorithm.
 fname = "cat.jpeg"
 image = np.array(Image.open(fname).resize((num_px, num_px)))
 plt.imshow(image)
