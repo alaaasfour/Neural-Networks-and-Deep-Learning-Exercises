@@ -59,3 +59,37 @@ print ("train_set_y shape: " + str(train_set_y.shape))
 print ("test_set_x_flatten shape: " + str(test_set_x_flatten.shape))
 print ("test_set_y shape: " + str(test_set_y.shape))
 print("========================================")
+
+"""
+To represent color images, the red, green and blue channels (RGB) must be specified for each pixel, and so the pixel 
+value is actually a vector of three numbers ranging from 0 to 255.
+"""
+train_set_x = train_set_x_flatten / 255
+test_set_x = test_set_x_flatten / 255
+
+
+"""
+Building the parts of the algorithm:
+The main steps for building a Neural Network are:
+    1. Defining the model structure (number of input features)
+    2. Initialize the model parameters
+    3. Loop:
+        - Calculating the current loss (forward propagation)
+        - Calculating the gradient (backward propagation)
+        - Update parameters of the model (gradient descent)
+        
+We will build each step separately and combine them into a single function called model()
+"""
+"""
+Exercise 3: Sigmoid Function
+The sigmoid function has the formula: sigmoid(z) = 1 / (1 + e^{-z}) 
+"""
+print("Exercise 3: Sigmoid Function")
+print("==========")
+def sigmoid(z):
+    s = 1 / (1 + np.exp(-z))
+    return s
+
+print ("sigmoid([0, 2]) = " + str(sigmoid(np.array([0,2]))))
+sigmoid_test(sigmoid)
+print("========================================")
