@@ -283,3 +283,36 @@ def initialize_parameters_deep_test_2(target):
     ]
 
     multiple_test(test_cases, target)
+
+
+def linear_forward_test(target):
+    np.random.seed(1)
+    A_prev = np.random.randn(3, 2)
+    W = np.random.randn(1, 3)
+    b = np.random.randn(1, 1)
+    expected_cache = (A_prev, W, b)
+    expected_Z = np.array([[3.26295337, -1.23429987]])
+    expected_output = (expected_Z, expected_cache)
+    test_cases = [
+        {
+            "name": "datatype_check",
+            "input": [A_prev, W, b],
+            "expected": expected_output,
+            "error": "Datatype mismatch"
+        },
+        {
+            "name": "shape_check",
+            "input": [A_prev, W, b],
+            "expected": expected_output,
+            "error": "Wrong shape"
+        },
+        {
+            "name": "equation_output_check",
+            "input": [A_prev, W, b],
+            "expected": expected_output,
+            "error": "Wrong output"
+        },
+
+    ]
+
+    multiple_test(test_cases, target)

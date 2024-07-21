@@ -11,7 +11,7 @@ PIL and scipy are used here to test the model with different pictures from the l
 import numpy as np
 import h5py
 import matplotlib.pyplot as plt
-# from testCases import *
+from testCases import *
 from public_tests import *
 import copy
 np.random.seed(1)
@@ -116,5 +116,34 @@ print("b1 = " + str(parameters["b1"]))
 print("W2 = " + str(parameters["W2"]))
 print("b2 = " + str(parameters["b2"]))
 initialize_parameters_deep_test_2(initialize_parameters_deep)
+print("========================================")
+
+"""
+Exercise 3: Forward Propagation Module
+After initializing the parameters, the forward propagation module can be done. 
+The linear forward module computes the following equation: Z[l] = W[l]A[l-1]+b[l]
+
+Argument:
+    A: activations from previous layer (or input data): (size of previous layer, number of examples)
+    W: weights matrix: numpy array of shape (size of current layer, size of previous layer)
+    b: bias vector, numpy array of shape (size of the current layer, 1)
+
+Returns:
+    Z: the input of the activation function, also called pre-activation parameter 
+    cache: a python tuple containing "A", "W" and "b" ; stored for computing the backward pass efficiently
+"""
+def linear_forward(A, W, b):
+    Z = np.dot(W, A) + b
+    cache = (A, W, b)
+
+    return Z, cache
+
+print("Exercise 3")
+print("==========")
+t_A, t_W, t_b = linear_forward_test_case()
+t_Z, t_linear_cache = linear_forward(t_A, t_W, t_b)
+print("Z = " + str(t_Z))
+
+linear_forward_test(linear_forward)
 print("========================================")
 
