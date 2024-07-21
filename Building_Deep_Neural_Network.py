@@ -394,7 +394,6 @@ Returns:
              grads["dW" + str(l)] = ...
              grads["db" + str(l)] = ... 
 """
-
 def L_model_backward(AL, Y, caches):
     grads = {}
     L = len(caches)  # the number of layers
@@ -432,4 +431,41 @@ print("db1 = " + str(grads['db1']))
 print("db2 = " + str(grads['db2']))
 
 L_model_backward_test(L_model_backward)
+print("========================================")
+
+"""
+Exercise 10: Update Parameters
+In this section, we'll update the parameters of the model, using gradient descent:
+
+Arguments:
+    params: python dictionary containing your parameters 
+    grads: python dictionary containing your gradients, output of L_model_backward
+
+Returns:
+    parameters: python dictionary containing your updated parameters 
+                  parameters["W" + str(l)] = ... 
+                  parameters["b" + str(l)] = ...
+"""
+
+def update_parameters(params, grads, learning_rate):
+    parameters = copy.deepcopy(params)
+    L = len(parameters) // 2  # number of layers in the neural network
+
+    for i in range(L):
+        parameters["W" + str(i + 1)] = params["W" + str(i + 1)] - learning_rate * grads["dW" + str(i + 1)]
+        parameters["b" + str(i + 1)] = params["b" + str(i + 1)] - learning_rate * grads["db" + str(i + 1)]
+
+    return parameters
+
+print("Exercise 10: Update Parameters")
+print("==========")
+t_parameters, grads = update_parameters_test_case()
+t_parameters = update_parameters(t_parameters, grads, 0.1)
+
+print ("W1 = "+ str(t_parameters["W1"]))
+print ("b1 = "+ str(t_parameters["b1"]))
+print ("W2 = "+ str(t_parameters["W2"]))
+print ("b2 = "+ str(t_parameters["b2"]))
+
+update_parameters_test(update_parameters)
 print("========================================")
