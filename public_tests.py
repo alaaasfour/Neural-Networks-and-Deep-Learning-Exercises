@@ -316,3 +316,58 @@ def linear_forward_test(target):
     ]
 
     multiple_test(test_cases, target)
+
+
+def linear_activation_forward_test(target):
+    np.random.seed(2)
+    A_prev = np.random.randn(3, 2)
+    W = np.random.randn(1, 3)
+    b = np.random.randn(1, 1)
+    expected_linear_cache = (A_prev, W, b)
+    expected_Z = np.array([[3.43896131, -2.08938436]])
+    expected_cache = (expected_linear_cache, expected_Z)
+    expected_A_sigmoid = np.array([[0.96890023, 0.11013289]])
+    expected_A_relu = np.array([[3.43896131, 0.]])
+
+    expected_output_sigmoid = (expected_A_sigmoid, expected_cache)
+    expected_output_relu = (expected_A_relu, expected_cache)
+    test_cases = [
+        {
+            "name": "datatype_check",
+            "input": [A_prev, W, b, 'sigmoid'],
+            "expected": expected_output_sigmoid,
+            "error": "Datatype mismatch with sigmoid activation"
+        },
+        {
+            "name": "shape_check",
+            "input": [A_prev, W, b, 'sigmoid'],
+            "expected": expected_output_sigmoid,
+            "error": "Wrong shape with sigmoid activation"
+        },
+        {
+            "name": "equation_output_check",
+            "input": [A_prev, W, b, 'sigmoid'],
+            "expected": expected_output_sigmoid,
+            "error": "Wrong output with sigmoid activation"
+        },
+        {
+            "name": "datatype_check",
+            "input": [A_prev, W, b, 'relu'],
+            "expected": expected_output_relu,
+            "error": "Datatype mismatch with relu activation"
+        },
+        {
+            "name": "shape_check",
+            "input": [A_prev, W, b, 'relu'],
+            "expected": expected_output_relu,
+            "error": "Wrong shape with relu activation"
+        },
+        {
+            "name": "equation_output_check",
+            "input": [A_prev, W, b, 'relu'],
+            "expected": expected_output_relu,
+            "error": "Wrong output with relu activation"
+        }
+    ]
+
+    multiple_test(test_cases, target)

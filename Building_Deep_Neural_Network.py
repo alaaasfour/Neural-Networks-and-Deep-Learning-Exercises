@@ -147,3 +147,58 @@ print("Z = " + str(t_Z))
 linear_forward_test(linear_forward)
 print("========================================")
 
+"""
+Exercise 4: Linear Activation Forward
+To implement the linear activation forward, we will use two activation functions:
+1. Sigmoid function: which returns two items; the activation value 'a' and a 'cache'
+2. ReLU function: which returns two items; the activation value 'A' and a 'cache' that contains 'Z'
+
+Arguments:
+    A_prev: activations from previous layer (or input data): (size of previous layer, number of examples)
+    W: weights matrix: numpy array of shape (size of current layer, size of previous layer)
+    b: bias vector, numpy array of shape (size of the current layer, 1)
+    activation: the activation to be used in this layer, stored as a text string: "sigmoid" or "relu"
+
+Returns:
+    A: the output of the activation function, also called the post-activation value 
+    cache: a python tuple containing "linear_cache" and "activation_cache"; stored for computing the backward pass efficiently
+"""
+
+def sigmoid(Z):
+    A = 1/(1 + np.exp(-Z))
+    cache = Z
+
+    return A, cache
+
+def relu(Z):
+    A = np.maximum(0, Z)
+    assert (A.shape == Z.shape)
+    cache = Z
+    return A, cache
+
+def linear_activation_forward(A_prev, W, b, activation):
+    if activation == "sigmoid":
+        Z, linear_cache = linear_forward(A_prev, W, b)
+        A, activation_cache = sigmoid(Z)
+
+    elif activation == "relu":
+        Z, linear_cache = linear_forward(A_prev, W, b)
+        A, activation_cache = relu(Z)
+
+    cache = (linear_cache, activation_cache)
+
+    return A, cache
+
+print("Exercise 4")
+print("==========")
+t_A_prev, t_W, t_b = linear_activation_forward_test_case()
+
+t_A, t_linear_activation_cache = linear_activation_forward(t_A_prev, t_W, t_b, activation = "sigmoid")
+print("With sigmoid: A = " + str(t_A))
+
+t_A, t_linear_activation_cache = linear_activation_forward(t_A_prev, t_W, t_b, activation = "relu")
+print("With ReLU: A = " + str(t_A))
+
+linear_activation_forward_test(linear_activation_forward)
+print("========================================")
+
