@@ -202,3 +202,41 @@ print("With ReLU: A = " + str(t_A))
 linear_activation_forward_test(linear_activation_forward)
 print("========================================")
 
+"""
+Exercise 5: L-Layer Model
+For even more convenience when implementing the  L-layer Neural Net, we will need a function that replicates 
+the previous one (linear_activation_forward with RELU)  L−1  times, then follows that with one linear_activation_forward with SIGMOID.
+
+Arguments:
+    X: data, numpy array of shape (input size, number of examples)
+    parameters: output of initialize_parameters_deep()
+
+Returns:
+    AL: activation value from the output (last) layer
+    caches: list of caches containing every cache of linear_activation_forward() (there are L of them, indexed from 0 to L-1)
+"""
+
+def L_model_forward(X, parameters):
+    caches = []
+    A = X
+    L = len(parameters) // 2 # number of layers in the neural network
+
+    for i in range(1, L):
+        A_prev = A
+        A, cache = linear_activation_forward(A_prev, parameters['W' + str(i)], parameters['b' + str(i)], activation="relu")
+        caches.append(cache)
+
+    AL, cache = linear_activation_forward(A, parameters['W' + str(L)], parameters['b' + str(L)], activation="sigmoid")
+    caches.append(cache)
+
+    return AL, caches
+
+print("Exercise 5")
+print("==========")
+t_X, t_parameters = L_model_forward_test_case_2hidden()
+t_AL, t_caches = L_model_forward(t_X, t_parameters)
+
+print("AL = " + str(t_AL))
+
+L_model_forward_test(L_model_forward)
+print("========================================")
