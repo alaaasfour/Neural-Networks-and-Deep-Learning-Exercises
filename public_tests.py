@@ -510,3 +510,139 @@ def linear_backward_test(target):
 
     multiple_test(test_cases, target)
 
+
+def linear_activation_backward_test(target):
+    np.random.seed(2)
+    dA = np.random.randn(1, 2)
+    A = np.random.randn(3, 2)
+    W = np.random.randn(1, 3)
+    b = np.random.randn(1, 1)
+    Z = np.random.randn(1, 2)
+    linear_cache = (A, W, b)
+    activation_cache = Z
+    linear_activation_cache = (linear_cache, activation_cache)
+
+    expected_dA_prev_sigmoid = np.array([[0.11017994, 0.01105339],
+                                         [0.09466817, 0.00949723],
+                                         [-0.05743092, -0.00576154]])
+    expected_dW_sigmoid = np.array([[0.10266786, 0.09778551, -0.01968084]])
+    expected_db_sigmoid = np.array([[-0.05729622]])
+    expected_output_sigmoid = (expected_dA_prev_sigmoid,
+                               expected_dW_sigmoid,
+                               expected_db_sigmoid)
+
+    expected_dA_prev_relu = np.array([[0.44090989, 0.],
+                                      [0.37883606, 0.],
+                                      [-0.2298228, 0.]])
+    expected_dW_relu = np.array([[0.44513824, 0.37371418, -0.10478989]])
+    expected_db_relu = np.array([[-0.20837892]])
+    expected_output_relu = (expected_dA_prev_relu,
+                            expected_dW_relu,
+                            expected_db_relu)
+
+    test_cases = [
+        {
+            "name": "datatype_check",
+            "input": [dA, linear_activation_cache, 'sigmoid'],
+            "expected": expected_output_sigmoid,
+            "error": "Data type mismatch with sigmoid activation"
+        },
+        {
+            "name": "shape_check",
+            "input": [dA, linear_activation_cache, 'sigmoid'],
+            "expected": expected_output_sigmoid,
+            "error": "Wrong shape with sigmoid activation"
+        },
+        {
+            "name": "equation_output_check",
+            "input": [dA, linear_activation_cache, 'sigmoid'],
+            "expected": expected_output_sigmoid,
+            "error": "Wrong output with sigmoid activation"
+        },
+        {
+            "name": "datatype_check",
+            "input": [dA, linear_activation_cache, 'relu'],
+            "expected": expected_output_relu,
+            "error": "Data type mismatch with relu activation"
+        },
+        {
+            "name": "shape_check",
+            "input": [dA, linear_activation_cache, 'relu'],
+            "expected": expected_output_relu,
+            "error": "Wrong shape with relu activation"
+        },
+        {
+            "name": "equation_output_check",
+            "input": [dA, linear_activation_cache, 'relu'],
+            "expected": expected_output_relu,
+            "error": "Wrong output with relu activation"
+        }
+    ]
+
+    multiple_test(test_cases, target)
+
+
+def L_model_backward_test(target):
+    np.random.seed(3)
+    AL = np.random.randn(1, 2)
+    Y = np.array([[1, 0]])
+
+    A1 = np.random.randn(4, 2)
+    W1 = np.random.randn(3, 4)
+    b1 = np.random.randn(3, 1)
+    Z1 = np.random.randn(3, 2)
+    linear_cache_activation_1 = ((A1, W1, b1), Z1)
+
+    A2 = np.random.randn(3, 2)
+    W2 = np.random.randn(1, 3)
+    b2 = np.random.randn(1, 1)
+    Z2 = np.random.randn(1, 2)
+    linear_cache_activation_2 = ((A2, W2, b2), Z2)
+
+    caches = (linear_cache_activation_1, linear_cache_activation_2)
+
+    expected_dA1 = np.array([[0.12913162, -0.44014127],
+                             [-0.14175655, 0.48317296],
+                             [0.01663708, -0.05670698]])
+    expected_dW2 = np.array([[-0.39202432, -0.13325855, -0.04601089]])
+    expected_db2 = np.array([[0.15187861]])
+    expected_dA0 = np.array([[0., 0.52257901],
+                             [0., -0.3269206],
+                             [0., -0.32070404],
+                             [0., -0.74079187]])
+    expected_dW1 = np.array([[0.41010002, 0.07807203, 0.13798444, 0.10502167],
+                             [0., 0., 0., 0.],
+                             [0.05283652, 0.01005865, 0.01777766, 0.0135308]])
+    expected_db1 = np.array([[-0.22007063],
+                             [0.],
+                             [-0.02835349]])
+    expected_output = {'dA1': expected_dA1,
+                       'dW2': expected_dW2,
+                       'db2': expected_db2,
+                       'dA0': expected_dA0,
+                       'dW1': expected_dW1,
+                       'db1': expected_db1
+                       }
+    test_cases = [
+        {
+            "name": "datatype_check",
+            "input": [AL, Y, caches],
+            "expected": expected_output,
+            "error": "Data type mismatch"
+        },
+        {
+            "name": "shape_check",
+            "input": [AL, Y, caches],
+            "expected": expected_output,
+            "error": "Wrong shape"
+        },
+        {
+            "name": "equation_output_check",
+            "input": [AL, Y, caches],
+            "expected": expected_output,
+            "error": "Wrong output"
+        }
+    ]
+
+    multiple_test(test_cases, target)
+

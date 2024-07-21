@@ -20,6 +20,7 @@ np.random.seed(1)
 Exercise 1: Initializing Parameters
 We will create and initialize the parameters of the 2-layer neural network.
 The model structure will look like this: LINEAR -> RELU -> LINEAR -> SIGMOID
+
 Argument:
     n_x: size of the input layer
     n_h: size of the hidden layer
@@ -275,6 +276,7 @@ print("========================================")
 Exercise 7: Backward Propagation Module
 Similarly to the forward propagation, we need to implement the backpropagation.
 Backpropagation is used to calculate the gradient of the loss function with respect to the parameters.
+
 Arguments:
     dZ: Gradient of the cost with respect to the linear output (of current layer l)
     cache: tuple of values (A_prev, W, b) coming from the forward propagation in the current layer
@@ -305,4 +307,129 @@ print("dW: " + str(t_dW))
 print("db: " + str(t_db))
 
 linear_backward_test(linear_backward)
+print("========================================")
+
+"""
+Exercise 8: Linear-Activation Backward
+Next, we will create a function that merges the two helper functions: linear_backward and the backward step for the activation linear_activation_backward.
+For this exercise, we will use the following 2 functions:
+    1. sigmoid_backward: computes the backward propagation for SIGMOID unit.
+    2. relu_backward: computes the backward propagation for RELU unit.
+    
+Arguments:
+    dA: post-activation gradient for current layer l 
+    cache: tuple of values (linear_cache, activation_cache) we store for computing backward propagation efficiently
+    activation: the activation to be used in this layer, stored as a text string: "sigmoid" or "relu"
+
+Returns:
+    dA_prev: Gradient of the cost with respect to the activation (of the previous layer l-1), same shape as A_prev
+    dW: Gradient of the cost with respect to W (current layer l), same shape as W
+    db: Gradient of the cost with respect to b (current layer l), same shape as b
+"""
+
+def sigmoid_backward(dA, cache):
+    Z = cache
+    s = 1 / (1 + np.exp(-Z))
+    dZ = dA * s * (1 - s)
+
+    assert (dZ.shape == Z.shape)
+    return dZ
+
+def relu_backward(dA, cache):
+    Z = cache
+    dZ = np.array(dA, copy=True)  # just converting dz to a correct object.
+    # When z <= 0, we should set dz to 0 as well.
+    dZ[Z <= 0] = 0
+
+    assert (dZ.shape == Z.shape)
+    return dZ
+
+def linear_activation_backward(dA, cache, activation):
+    linear_cache, activation_cache = cache
+
+    if activation == "relu":
+        dZ = relu_backward(dA, activation_cache)
+        dA_prev, dW, db = linear_backward(dZ, linear_cache)
+
+    elif activation == "sigmoid":
+        dZ = sigmoid_backward(dA, activation_cache)
+        dA_prev, dW, db = linear_backward(dZ, linear_cache)
+
+    return dA_prev, dW, db
+
+print("Exercise 8: Linear-Activation Backward")
+print("==========")
+t_dAL, t_linear_activation_cache = linear_activation_backward_test_case()
+
+t_dA_prev, t_dW, t_db = linear_activation_backward(t_dAL, t_linear_activation_cache, activation = "sigmoid")
+print("With sigmoid: dA_prev = " + str(t_dA_prev))
+print("With sigmoid: dW = " + str(t_dW))
+print("With sigmoid: db = " + str(t_db))
+
+t_dA_prev, t_dW, t_db = linear_activation_backward(t_dAL, t_linear_activation_cache, activation = "relu")
+print("With relu: dA_prev = " + str(t_dA_prev))
+print("With relu: dW = " + str(t_dW))
+print("With relu: db = " + str(t_db))
+
+linear_activation_backward_test(linear_activation_backward)
+print("========================================")
+
+"""
+Exercise 9: L-Model Backward
+When we implemented the L_model_forward function, at each iteration, we stored a cache which contains (X,W,b, and z). 
+In the back propagation module, we'll use those variables to compute the gradients. 
+Therefore, in the L_model_backward function, we'll iterate through all the hidden layers backward, starting from layer L.
+On each step, you will use the cached values for layer l to backpropagate through layer l.
+
+Arguments:
+    AL: probability vector, output of the forward propagation (L_model_forward())
+    Y: true "label" vector (containing 0 if non-cat, 1 if cat)
+    caches: list of caches containing:
+                every cache of linear_activation_forward() with "relu" (it's caches[l], for l in range(L-1) i.e l = 0...L-2)
+                the cache of linear_activation_forward() with "sigmoid" (it's caches[L-1])
+
+Returns:
+    grads: A dictionary with the gradients
+             grads["dA" + str(l)] = ... 
+             grads["dW" + str(l)] = ...
+             grads["db" + str(l)] = ... 
+"""
+
+def L_model_backward(AL, Y, caches):
+    grads = {}
+    L = len(caches)  # the number of layers
+    m = AL.shape[1]
+    Y = Y.reshape(AL.shape)  # after this line, Y is the same shape as AL
+
+    # Initializing the backpropagation
+    dAL = - (np.divide(Y, AL) - np.divide(1 - Y, 1 - AL))
+    current_cache = caches[L - 1]
+    dA_prev_temp, dW_temp, db_temp = linear_activation_backward(dAL, current_cache, activation = "sigmoid")
+    grads["dA" + str(L - 1)] = dA_prev_temp
+    grads["dW" + str(L)] = dW_temp
+    grads["db" + str(L)] = db_temp
+
+    # Loop from i=L-2 to i=0
+    for i in reversed(range(L - 1)):
+        current_cache = caches[i]
+        dA_prev_temp, dW_temp, db_temp = linear_activation_backward(grads["dA" + str(i + 1)], current_cache, activation = "relu")
+        grads["dA" + str(i)] = dA_prev_temp
+        grads["dW" + str(i + 1)] = dW_temp
+        grads["db" + str(i + 1)] = db_temp
+
+    return grads
+
+print("Exercise 9: L-Model Backward")
+print("==========")
+t_AL, t_Y_assess, t_caches = L_model_backward_test_case()
+grads = L_model_backward(t_AL, t_Y_assess, t_caches)
+
+print("dA0 = " + str(grads['dA0']))
+print("dA1 = " + str(grads['dA1']))
+print("dW1 = " + str(grads['dW1']))
+print("dW2 = " + str(grads['dW2']))
+print("db1 = " + str(grads['db1']))
+print("db2 = " + str(grads['db2']))
+
+L_model_backward_test(L_model_backward)
 print("========================================")
