@@ -1,5 +1,5 @@
 import numpy as np
-
+from test_utils import single_test, multiple_test
          
 def sigmoid_test(target):
     x = np.array([0, 2])
@@ -147,10 +147,8 @@ def model_test(target):
 
 def initialize_parameters_test_1(target):
     n_x, n_h, n_y = 3, 2, 1
-    expected_W1 = np.array([[0.01624345, -0.00611756, -0.00528172],
-                            [-0.01072969, 0.00865408, -0.02301539]])
-    expected_b1 = np.array([[0.],
-                            [0.]])
+    expected_W1 = np.array([[0.01624345, -0.00611756, -0.00528172], [-0.01072969, 0.00865408, -0.02301539]])
+    expected_b1 = np.array([[0.], [0.]])
     expected_W2 = np.array([[0.01744812, -0.00761207]])
     expected_b2 = np.array([[0.]])
     expected_output = {"W1": expected_W1,
@@ -171,24 +169,19 @@ def initialize_parameters_test_1(target):
             "error": "Wrong output"
         }
     ]
-
     multiple_test(test_cases, target)
 
 
-### ex 1 - Test 2
 def initialize_parameters_test_2(target):
     n_x, n_h, n_y = 4, 3, 2
 
     expected_W1 = np.array([[0.01624345, -0.00611756, -0.00528172, -0.01072969],
                             [0.00865408, -0.02301539, 0.01744812, -0.00761207],
                             [0.00319039, -0.0024937, 0.01462108, -0.02060141]])
-    expected_b1 = np.array([[0.],
-                            [0.],
-                            [0.]])
+    expected_b1 = np.array([[0.], [0.], [0.]])
     expected_W2 = np.array([[-0.00322417, -0.00384054, 0.01133769],
                             [-0.01099891, -0.00172428, -0.00877858]])
-    expected_b2 = np.array([[0.],
-                            [0.]])
+    expected_b2 = np.array([[0.], [0.]])
     expected_output = {"W1": expected_W1,
                        "b1": expected_b1,
                        "W2": expected_W2,
@@ -207,7 +200,86 @@ def initialize_parameters_test_2(target):
             "error": "Wrong output"
         }
     ]
+    multiple_test(test_cases, target)
+
+def initialize_parameters_deep_test_1(target):
+    layer_dims = [5, 4, 3]
+    expected_W1 = np.array([[0.01788628, 0.0043651, 0.00096497, -0.01863493, -0.00277388],
+                            [-0.00354759, -0.00082741, -0.00627001, -0.00043818, -0.00477218],
+                            [-0.01313865, 0.00884622, 0.00881318, 0.01709573, 0.00050034],
+                            [-0.00404677, -0.0054536, -0.01546477, 0.00982367, -0.01101068]])
+    expected_b1 = np.array([[0.],
+                            [0.],
+                            [0.],
+                            [0.]])
+    expected_W2 = np.array([[-0.01185047, -0.0020565, 0.01486148, 0.00236716],
+                            [-0.01023785, -0.00712993, 0.00625245, -0.00160513],
+                            [-0.00768836, -0.00230031, 0.00745056, 0.01976111]])
+    expected_b2 = np.array([[0.],
+                            [0.],
+                            [0.]])
+    expected_output = {"W1": expected_W1,
+                       "b1": expected_b1,
+                       "W2": expected_W2,
+                       "b2": expected_b2}
+    test_cases = [
+        {
+            "name": "datatype_check",
+            "input": [layer_dims],
+            "expected": expected_output,
+            "error": "Datatype mismatch"
+        },
+        {
+            "name": "shape_check",
+            "input": [layer_dims],
+            "expected": expected_output,
+            "error": "Wrong shape"
+        },
+        {
+            "name": "equation_output_check",
+            "input": [layer_dims],
+            "expected": expected_output,
+            "error": "Wrong output"
+        }
+    ]
 
     multiple_test(test_cases, target)
 
-    
+def initialize_parameters_deep_test_2(target):
+    layer_dims = [4, 3, 2]
+    expected_W1 = np.array([[0.01788628, 0.0043651, 0.00096497, -0.01863493],
+                            [-0.00277388, -0.00354759, -0.00082741, -0.00627001],
+                            [-0.00043818, -0.00477218, -0.01313865, 0.00884622]])
+    expected_b1 = np.array([[0.],
+                            [0.],
+                            [0.]])
+    expected_W2 = np.array([[0.00881318, 0.01709573, 0.00050034],
+                            [-0.00404677, -0.0054536, -0.01546477]])
+    expected_b2 = np.array([[0.],
+                            [0.]])
+    expected_output = {"W1": expected_W1,
+                       "b1": expected_b1,
+                       "W2": expected_W2,
+                       "b2": expected_b2}
+    test_cases = [
+        {
+            "name": "datatype_check",
+            "input": [layer_dims],
+            "expected": expected_output,
+            "error": "Datatype mismatch"
+        },
+        {
+            "name": "shape_check",
+            "input": [layer_dims],
+            "expected": expected_output,
+            "error": "Wrong shape"
+        },
+        {
+            "name": "equation_output_check",
+            "input": [layer_dims],
+            "expected": expected_output,
+            "error": "Wrong output"
+        }
+    ]
+
+    multiple_test(test_cases, target)
