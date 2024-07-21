@@ -143,4 +143,71 @@ def model_test(target):
     assert np.allclose(d['Y_prediction_train'], expected_output['Y_prediction_train']), f"Wrong values for d['Y_prediction_train']. {d['Y_prediction_train']} != {expected_output['Y_prediction_train']}"
     
     print('\033[92mAll tests passed!')
+
+
+def initialize_parameters_test_1(target):
+    n_x, n_h, n_y = 3, 2, 1
+    expected_W1 = np.array([[0.01624345, -0.00611756, -0.00528172],
+                            [-0.01072969, 0.00865408, -0.02301539]])
+    expected_b1 = np.array([[0.],
+                            [0.]])
+    expected_W2 = np.array([[0.01744812, -0.00761207]])
+    expected_b2 = np.array([[0.]])
+    expected_output = {"W1": expected_W1,
+                       "b1": expected_b1,
+                       "W2": expected_W2,
+                       "b2": expected_b2}
+    test_cases = [
+        {
+            "name": "datatype_check",
+            "input": [n_x, n_h, n_y],
+            "expected": expected_output,
+            "error": "Datatype mismatch."
+        },
+        {
+            "name": "equation_output_check",
+            "input": [n_x, n_h, n_y],
+            "expected": expected_output,
+            "error": "Wrong output"
+        }
+    ]
+
+    multiple_test(test_cases, target)
+
+
+### ex 1 - Test 2
+def initialize_parameters_test_2(target):
+    n_x, n_h, n_y = 4, 3, 2
+
+    expected_W1 = np.array([[0.01624345, -0.00611756, -0.00528172, -0.01072969],
+                            [0.00865408, -0.02301539, 0.01744812, -0.00761207],
+                            [0.00319039, -0.0024937, 0.01462108, -0.02060141]])
+    expected_b1 = np.array([[0.],
+                            [0.],
+                            [0.]])
+    expected_W2 = np.array([[-0.00322417, -0.00384054, 0.01133769],
+                            [-0.01099891, -0.00172428, -0.00877858]])
+    expected_b2 = np.array([[0.],
+                            [0.]])
+    expected_output = {"W1": expected_W1,
+                       "b1": expected_b1,
+                       "W2": expected_W2,
+                       "b2": expected_b2}
+    test_cases = [
+        {
+            "name": "datatype_check",
+            "input": [n_x, n_h, n_y],
+            "expected": expected_output,
+            "error": "Datatype mismatch."
+        },
+        {
+            "name": "equation_output_check",
+            "input": [n_x, n_h, n_y],
+            "expected": expected_output,
+            "error": "Wrong output"
+        }
+    ]
+
+    multiple_test(test_cases, target)
+
     
