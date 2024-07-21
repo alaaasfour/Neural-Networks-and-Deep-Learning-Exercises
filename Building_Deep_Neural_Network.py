@@ -42,7 +42,7 @@ def initialize_parameters(n_x, n_h, n_y):
     parameters = {'W1': W1, 'b1':b1, 'W2': W2, 'b2': b2}
 
     return parameters
-print("Exercise 1")
+print("Exercise 1: Initializing Parameters")
 print("==========")
 print("Test Case 1:\n")
 parameters = initialize_parameters(3,2,1)
@@ -96,7 +96,7 @@ def initialize_parameters_deep(layer_dims):
 
     return parameters
 
-print("Exercise 2")
+print("Exercise 2: Initializing Parameters Deep")
 print("==========")
 print("Test Case 1:\n")
 parameters = initialize_parameters_deep([5,4,3])
@@ -138,7 +138,7 @@ def linear_forward(A, W, b):
 
     return Z, cache
 
-print("Exercise 3")
+print("Exercise 3: Forward Propagation Module")
 print("==========")
 t_A, t_W, t_b = linear_forward_test_case()
 t_Z, t_linear_cache = linear_forward(t_A, t_W, t_b)
@@ -189,7 +189,7 @@ def linear_activation_forward(A_prev, W, b, activation):
 
     return A, cache
 
-print("Exercise 4")
+print("Exercise 4: Linear Activation Forward")
 print("==========")
 t_A_prev, t_W, t_b = linear_activation_forward_test_case()
 
@@ -231,7 +231,7 @@ def L_model_forward(X, parameters):
 
     return AL, caches
 
-print("Exercise 5")
+print("Exercise 5: L-Layer Model")
 print("==========")
 t_X, t_parameters = L_model_forward_test_case_2hidden()
 t_AL, t_caches = L_model_forward(t_X, t_parameters)
@@ -239,4 +239,70 @@ t_AL, t_caches = L_model_forward(t_X, t_parameters)
 print("AL = " + str(t_AL))
 
 L_model_forward_test(L_model_forward)
+print("========================================")
+
+
+"""
+Exercise 6: Cost Function
+We need to implement the cost, in order to check whether the model is actually learning
+
+Arguments:
+    AL: probability vector corresponding to your label predictions, shape (1, number of examples)
+    Y: true "label" vector (for example: containing 0 if non-cat, 1 if cat), shape (1, number of examples)
+
+Returns:
+    cost: cross-entropy cost
+"""
+
+def compute_cost(AL, Y):
+    m = Y.shape[1]
+    cost = -(1/m) * np.sum(Y * np.log(AL) + (1 - Y) * np.log(1 - AL))
+    cost = np.shape(cost)
+
+    return cost
+
+print("Exercise 6: Cost Function")
+print("==========")
+t_Y, t_AL = compute_cost_test_case()
+t_cost = compute_cost(t_AL, t_Y)
+
+print("Cost: " + str(t_cost))
+
+compute_cost_test(compute_cost)
+print("========================================")
+
+"""
+Exercise 7: Backward Propagation Module
+Similarly to the forward propagation, we need to implement the backpropagation.
+Backpropagation is used to calculate the gradient of the loss function with respect to the parameters.
+Arguments:
+    dZ: Gradient of the cost with respect to the linear output (of current layer l)
+    cache: tuple of values (A_prev, W, b) coming from the forward propagation in the current layer
+
+Returns:
+    dA_prev: Gradient of the cost with respect to the activation (of the previous layer l-1), same shape as A_prev
+    dW: Gradient of the cost with respect to W (current layer l), same shape as W
+    db: Gradient of the cost with respect to b (current layer l), same shape as b
+"""
+
+def linear_backward(dZ, cache):
+    A_prev, W, b = cache
+    m = A_prev.shape[1]
+
+    dW = 1/m * np.dot(dZ, A_prev.T)
+    db = 1/m * np.sum(dZ, axis=1, keepdims = True)
+    dA_prev = np.dot(W.T, dZ)
+
+    return dA_prev, dW, db
+
+print("Exercise 7: Backward Propagation Module")
+print("==========")
+t_dZ, t_linear_cache = linear_backward_test_case()
+t_dA_prev, t_dW, t_db = linear_backward(t_dZ, t_linear_cache)
+
+print("dA_prev: " + str(t_dA_prev))
+print("dW: " + str(t_dW))
+print("db: " + str(t_db))
+
+linear_backward_test(linear_backward)
 print("========================================")

@@ -449,3 +449,64 @@ def L_model_forward_test(target):
     ]
 
     multiple_test(test_cases, target)
+
+
+def compute_cost_test(target):
+    Y = np.asarray([[1, 1, 0]])
+    AL = np.array([[.8, .9, 0.4]])
+    expected_output = np.array(0.27977656)
+
+    test_cases = [
+        {
+            "name": "equation_output_check",
+            "input": [AL, Y],
+            "expected": expected_output,
+            "error": "Wrong output"
+        }
+    ]
+
+    single_test(test_cases, target)
+
+
+def linear_backward_test(target):
+    np.random.seed(1)
+    dZ = np.random.randn(3, 4)
+    A = np.random.randn(5, 4)
+    W = np.random.randn(3, 5)
+    b = np.random.randn(3, 1)
+    linear_cache = (A, W, b)
+    expected_dA_prev = np.array([[-1.15171336, 0.06718465, -0.3204696, 2.09812712],
+                                 [0.60345879, -3.72508701, 5.81700741, -3.84326836],
+                                 [-0.4319552, -1.30987417, 1.72354705, 0.05070578],
+                                 [-0.38981415, 0.60811244, -1.25938424, 1.47191593],
+                                 [-2.52214926, 2.67882552, -0.67947465, 1.48119548]])
+    expected_dW = np.array([[0.07313866, -0.0976715, -0.87585828, 0.73763362, 0.00785716],
+                            [0.85508818, 0.37530413, -0.59912655, 0.71278189, -0.58931808],
+                            [0.97913304, -0.24376494, -0.08839671, 0.55151192, -0.10290907]])
+    expected_db = np.array([[-0.14713786],
+                            [-0.11313155],
+                            [-0.13209101]])
+    expected_output = (expected_dA_prev, expected_dW, expected_db)
+    test_cases = [
+        {
+            "name": "datatype_check",
+            "input": [dZ, linear_cache],
+            "expected": expected_output,
+            "error": "Data type mismatch"
+        },
+        {
+            "name": "shape_check",
+            "input": [dZ, linear_cache],
+            "expected": expected_output,
+            "error": "Wrong shape"
+        },
+        {
+            "name": "equation_output_check",
+            "input": [dZ, linear_cache],
+            "expected": expected_output,
+            "error": "Wrong output"
+        }
+    ]
+
+    multiple_test(test_cases, target)
+
