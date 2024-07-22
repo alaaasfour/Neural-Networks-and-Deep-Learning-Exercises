@@ -691,3 +691,77 @@ def update_parameters_test(target):
 
     ]
     multiple_test(test_cases, target)
+
+def two_layer_model_test(target):
+    np.random.seed(1)
+    n_x = 10
+    n_h = 4
+    n_y = 1
+    num_examples = 10
+    num_iterations = 2
+    layers_dims = (n_x, n_h, n_y)
+    learning_rate = 0.0075
+    X = np.random.randn(n_x, num_examples)
+    Y = np.random.randn(1, num_examples)
+
+    expected_parameters = {'W1': np.array([[0.01624965, -0.00610741, -0.00528734, -0.01072836, 0.008664,
+                                            -0.02301103, 0.01745639, -0.00760949, 0.0031934, -0.00248971],
+                                           [0.01462848, -0.02057904, -0.00326745, -0.00383625, 0.01138176,
+                                            -0.01097596, -0.00171974, -0.00877601, 0.00043022, 0.00584423],
+                                           [-0.01098272, 0.01148209, 0.00902102, 0.00500958, 0.00900571,
+                                            -0.00683188, -0.00123491, -0.00937164, -0.00267157, 0.00532808],
+                                           [-0.00693465, -0.00400047, -0.00684685, -0.00844447, -0.00670397,
+                                            -0.00014731, -0.01113977, 0.00238846, 0.0165895, 0.00738212]]),
+                           'b1': np.array([[1.10437111e-05],
+                                           [1.78437869e-05],
+                                           [3.74879549e-05],
+                                           [-4.42988824e-05]]),
+                           'W2': np.array([[-0.00200283, -0.00888593, -0.00751122, 0.01688162]]),
+                           'b2': np.array([[-0.00689018]])}
+    expected_costs = [np.array(0.69315968)]
+
+    expected_output1 = (expected_parameters, expected_costs)
+
+    expected_output2 = ({'W1': np.array([[0.01640028, -0.00585699, -0.00542633, -0.01069332, 0.0089055,
+                                          -0.02290418, 0.01765388, -0.00754616, 0.00326712, -0.00239159],
+                                         [0.01476737, -0.02014461, -0.0040947, -0.0037457, 0.01221714,
+                                          -0.01054049, -0.00164111, -0.00872507, 0.00058592, 0.00615077],
+                                         [-0.01051621, 0.01216499, 0.009119, 0.0047126, 0.00894761,
+                                          -0.00672568, -0.00134921, -0.0096428, -0.00253223, 0.00580758],
+                                         [-0.00728552, -0.00461461, -0.00638113, -0.00831084, -0.00654136,
+                                          -0.00053186, -0.01052771, 0.00320719, 0.01643914, 0.00667123]]),
+                         'b1': np.array([[0.00027478],
+                                         [0.00034477],
+                                         [0.00076016],
+                                         [-0.00084497]]),
+                         'W2': np.array([[-0.00358725, -0.00911995, -0.00831979, 0.01615845]]),
+                         'b2': np.array([[-0.13451354]])}, [np.array(0.69315968)])
+
+    test_cases = [
+        {
+            "name": "datatype_check",
+            "input": [X, Y, layers_dims, learning_rate, num_iterations],
+            "expected": expected_output1,
+            "error": "Datatype mismatch."
+        },
+        {
+            "name": "shape_check",
+            "input": [X, Y, layers_dims, learning_rate, num_iterations],
+            "expected": expected_output1,
+            "error": "Wrong shape"
+        },
+        {
+            "name": "equation_output_check",
+            "input": [X, Y, layers_dims, learning_rate, num_iterations],
+            "expected": expected_output1,
+            "error": "Wrong output"
+        },
+        {
+            "name": "equation_output_check",
+            "input": [X, Y, layers_dims, 0.1, 3],
+            "expected": expected_output2,
+            "error": "Wrong output"
+        }
+    ]
+
+    multiple_test(test_cases, target)
