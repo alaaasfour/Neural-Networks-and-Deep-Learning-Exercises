@@ -239,3 +239,23 @@ pred_train = predict(train_x, train_y, parameters)
 pred_test = predict(test_x, test_y, parameters)
 
 # We can notice that it seems that the 4-layer neural network has better performance (80%) than the 2-layer neural network (72%) on the same test set.
+
+"""
+Exercise 6: Results Analysis
+"""
+# Let's take a look at some images the L-layer model labeled incorrectly. This will show a few mislabeled images.
+print_mislabeled_images(classes, test_x, test_y, pred_test)
+
+# Let's test with different images
+my_image = "cat.jpeg"
+my_label_y = [1] # the true class of your image (1 -> cat, 0 -> non-cat)
+
+fname = "cat.jpeg"
+image = np.array(Image.open(fname).resize((num_px, num_px)))
+plt.imshow(image)
+image = image / 255.
+image = image.reshape((1, num_px * num_px * 3)).T
+
+my_predicted_image = predict(image, my_label_y, parameters)
+
+print ("y = " + str(np.squeeze(my_predicted_image)) + ", your L-layer model predicts a \"" + classes[int(np.squeeze(my_predicted_image)),].decode("utf-8") +  "\" picture.")
