@@ -47,3 +47,29 @@ The dataset (`data.h5`) contains:
 ![Screenshot 2024-07-19 at 8 01 49 PM](https://github.com/user-attachments/assets/e2b198f2-0d8d-4f03-909f-1b36dc24e49a)
 ![Screenshot 2024-07-19 at 8 02 02 PM](https://github.com/user-attachments/assets/1c2588b4-589e-4e3e-b9a7-a1a3b619002d)
 
+# Building Deep Neural Network 🪄🕸️
+
+## Description 📖
+### This project demonstrates the step-by-step implementation of a deep neural network with multiple layers using Python. The primary goal is to understand and build the foundational functions required for constructing and training a deep neural network.
+
+## Prerequisites 🐍
+Make sure you have Python 3.10+ installed on your machine. In addition to the following packages:
+* `numpy`
+* `h5py`
+* `PIL`
+* `scipy`
+* `matplotlib`
+
+You can install these packages using pip: `pip install numpy h5py matplotlib pillow scipy`
+
+## Features & Exercises ✨☄️
+1. Initializing Parameters: The function `initialize_parameters` initializes the parameters for a 2-layer neural network.
+2. Initializing Parameters Deep: The function `initialize_parameters_deep` initializes parameters for an L-layer neural network.
+3. Forward Propagation Module: The function `linear_forward` computes the linear part of forward propagation.
+4. Linear Activation Forward: The function `linear_activation_forward` computes the forward propagation with activation functions (ReLU and Sigmoid).
+5. L-Layer Model: The function `L_model_forward` implements the forward propagation for the entire L-layer neural network.
+6. Cost Function: The function `compute_cost` calculates the cost using cross-entropy.
+7. Backward Propagation Module: The function `linear_backward` computes the linear part of the backward propagation.
+8. Linear-Activation Backward: The function `linear_activation_backward` implements the backward propagation with activation functions (ReLU and Sigmoid).
+9. L-Model Backward: The function `L_model_backward` implements the backward propagation for the entire L-layer neural network.
+10. Update Parameters: The function `update_parameters` updates the network parameters using gradient descent.
