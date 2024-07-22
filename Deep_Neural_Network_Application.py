@@ -88,7 +88,7 @@ n_y = 1
 layers_dims = (n_x, n_h, n_y)
 learning_rate = 0.0075
 
-def two_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, print_cost=False):
+def two_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, print_cost = False):
     np.random.seed(1)
     grads = {}
     costs = []  # to keep track of the cost
@@ -106,8 +106,8 @@ def two_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000
     # Loop (gradient descent)
     for i in range(0, num_iterations):
         # Forward propagation: LINEAR -> RELU -> LINEAR -> SIGMOID. Inputs: "X, W1, b1, W2, b2". Output: "A1, cache1, A2, cache2".
-        A1, cache1 = linear_activation_forward(X, W1, b1, activation="relu")
-        A2, cache2 = linear_activation_forward(A1, W2, b2, activation="sigmoid")
+        A1, cache1 = linear_activation_forward(X, W1, b1, activation = "relu")
+        A2, cache2 = linear_activation_forward(A1, W2, b2, activation = "sigmoid")
 
         # Compute cost
         cost = compute_cost(A2, Y)
@@ -116,8 +116,8 @@ def two_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000
         dA2 = - (np.divide(Y, A2) - np.divide(1 - Y, 1 - A2))
 
         # Backward propagation. Inputs: "dA2, cache2, cache1". Outputs: "dA1, dW2, db2; also dA0 (not used), dW1, db1".
-        dA1, dW2, db2 = linear_activation_backward(dA2, cache2, activation="sigmoid")
-        dA0, dW1, db1 = linear_activation_backward(dA1, cache1, activation="relu")
+        dA1, dW2, db2 = linear_activation_backward(dA2, cache2, activation = "sigmoid")
+        dA0, dW1, db1 = linear_activation_backward(dA1, cache1, activation = "relu")
 
         # Set grads['dWl'] to dW1, grads['db1'] to db1, grads['dW2'] to dW2, grads['db2'] to db2
         grads['dW1'] = dW1
@@ -151,9 +151,25 @@ def plot_costs(costs, learning_rate=0.0075):
 
 print("Exercise 2: Load and Process the Dataset")
 print("==========")
-parameters, costs = two_layer_model(train_x, train_y, layers_dims = (n_x, n_h, n_y), num_iterations = 2, print_cost=False)
+parameters, costs = two_layer_model(train_x, train_y, layers_dims = (n_x, n_h, n_y), num_iterations = 2, print_cost = False)
 print("Cost after first iteration: " + str(costs[0]))
 
 two_layer_model_test(two_layer_model)
 print("========================================")
+
+"""
+Exercise 3: Train the model
+"""
+# Now, we will train the parameters
+parameters, costs = two_layer_model(train_x, train_y, layers_dims = (n_x, n_h, n_y), num_iterations = 2500, print_cost = True)
+plot_costs(costs, learning_rate)
+
+# After training the model, we can use the trained parameters to classify images from the dataset.
+# Let's know the accuracy of the trained model:
+predictions_train = predict(train_x, train_y, parameters)
+# Let's know the accuracy of the test model:
+predictions_test = predict(test_x, test_y, parameters)
+
+# We can notice that the 2-layer neural network has better performance (72%) than the logistic regression implementation.
+
 
