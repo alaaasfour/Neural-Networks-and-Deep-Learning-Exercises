@@ -225,3 +225,17 @@ parameters, costs = L_layer_model(train_x, train_y, layers_dims, num_iterations 
 print("Cost after first iteration: " + str(costs[0]))
 
 L_layer_model_test(L_layer_model)
+
+"""
+Exercise 5: Train the model for L-Layer Neural Network
+"""
+# Now, we will train the parameters
+parameters, costs = L_layer_model(train_x, train_y, layers_dims, num_iterations = 2500, print_cost = True)
+
+# After training the model, we can use the trained parameters to classify images from the dataset.
+# Let's know the accuracy of the trained model:
+pred_train = predict(train_x, train_y, parameters)
+# Let's know the accuracy of the test model:
+pred_test = predict(test_x, test_y, parameters)
+
+# We can notice that it seems that the 4-layer neural network has better performance (80%) than the 2-layer neural network (72%) on the same test set.
