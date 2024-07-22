@@ -18,7 +18,7 @@ Make sure you have Python 3.10+ installed on your machine. In addition to the fo
 * `numpy`
 * `h5py`
 * `PIL`
-* `scipy`
+* `spicy`
 * `matplotlib`
 
 ## Dataset 🗳️
@@ -57,7 +57,7 @@ Make sure you have Python 3.10+ installed on your machine. In addition to the fo
 * `numpy`
 * `h5py`
 * `PIL`
-* `scipy`
+* `spicy`
 * `matplotlib`
 
 You can install these packages using pip: `pip install numpy h5py matplotlib pillow scipy`
@@ -73,3 +73,38 @@ You can install these packages using pip: `pip install numpy h5py matplotlib pil
 8. Linear-Activation Backward: The function `linear_activation_backward` implements the backward propagation with activation functions (ReLU and Sigmoid).
 9. L-Model Backward: The function `L_model_backward` implements the backward propagation for the entire L-layer neural network.
 10. Update Parameters: The function `update_parameters` updates the network parameters using gradient descent.
+
+
+# Deep Neural Network for Image Classification: Application🪄🕸️
+
+## Description 📖
+### This project builds a deep neural network to classify images as cat or non-cat, improving upon a logistic regression implementation. The project includes data loading, processing, building a two-layer neural network, and a deeper L-layer neural network, training these models, and evaluating their performance.
+
+The goal of this project is to build a cat/not-a-cat classifier using a deep neural network. We start with a simple logistic regression model and then improve the accuracy by using a two-layer neural network and finally an L-layer neural network.
+
+## Prerequisites 🐍
+Make sure you have Python 3.10+ installed on your machine. In addition to the following libraries:
+* `numpy`
+* `h5py`
+* `PIL`
+* `spicy`
+* `matplotlib`
+* `public_tests`
+* `helper_methods`
+
+## Implementation Details 📖
+
+### 1. Data Loading and Processing
+The dataset is loaded and processed to reshape and standardize the images before feeding them into the neural network.
+
+### 2. Two-layer Neural Network
+The two-layer neural network consists of an input layer, one hidden layer with ReLU activation, and an output layer with sigmoid activation. The model is trained using gradient descent and backpropagation.
+
+### 3. L-layer Neural Network
+The L-layer neural network consists of multiple hidden layers with ReLU activation and an output layer with sigmoid activation. The model is trained using gradient descent and backpropagation.
+
+## Results 📈📉
+The two-layer neural network achieved a performance of 72%, while the L-layer neural network achieved a performance of 80% on the test set. This demonstrates the effectiveness of deeper neural networks in improving classification accuracy.
+
+
+
