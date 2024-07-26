@@ -5,10 +5,10 @@ We'll see an improvement in accuracy over the logistic regression implementation
 """
 import time
 import h5py
-import spicy
+import scipy
 import numpy as np
 from PIL import Image
-from spicy import ndimage
+from scipy import ndimage
 from public_tests import *
 from helper_mthods import *
 import matplotlib.pyplot as plt
