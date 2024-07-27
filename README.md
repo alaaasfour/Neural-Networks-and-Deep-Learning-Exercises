@@ -18,7 +18,7 @@ Make sure you have Python 3.10+ installed on your machine. In addition to the fo
 * `numpy`
 * `h5py`
 * `PIL`
-* `spicy`
+* `scipy`
 * `matplotlib`
 
 ## Dataset 🗳️
@@ -57,7 +57,7 @@ Make sure you have Python 3.10+ installed on your machine. In addition to the fo
 * `numpy`
 * `h5py`
 * `PIL`
-* `spicy`
+* `scipy`
 * `matplotlib`
 
 You can install these packages using pip: `pip install numpy h5py matplotlib pillow scipy`
@@ -87,7 +87,7 @@ Make sure you have Python 3.10+ installed on your machine. In addition to the fo
 * `numpy`
 * `h5py`
 * `PIL`
-* `spicy`
+* `scipy`
 * `matplotlib`
 * `public_tests`
 * `helper_methods`
